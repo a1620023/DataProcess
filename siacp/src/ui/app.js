@@ -28,6 +28,13 @@ const procesarLibro = function(wb) {
 		
 	});
 	console.log(json);
+
+	// const datosFiltrados = getFilteredByKey(json, "ESTADO", "S");
+        // function getFilteredByKey(array, key, value) {
+        //     return array.filter(function(e) {
+        //         return e[key] == value;
+        //     });
+        // }
 };
 
 const readFile = function(files) {

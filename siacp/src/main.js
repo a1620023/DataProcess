@@ -15,9 +15,9 @@ function createWindow() {
 			enableRemoteModule: true
 		}
 	});
-	//win.setMenu(null); // oculta menu de archivo superior
+	win.setMenu(null); // oculta menu de archivo superior
 	win.loadURL("file://" + __dirname + "/ui/index.html");
-	win.webContents.openDevTools(false); // Al desplegar abre el inspector de pagina
+	//win.webContents.openDevTools(false); // Al desplegar abre el inspector de pagina
 	win.on('closed', function () { win = null; });
 }
 if (app.setAboutPanelOptions) app.setAboutPanelOptions({ applicationName: 'siacp', applicationVersion: "XLSX " + XLSX.version, copyright: "(C) 2020" });

@@ -44,3 +44,225 @@
 </nav>
 </body>
 </html>
+<!-- __________________________ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MODEPSA</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+
+    a {
+      color: #369;
+    }
+
+    .note {
+      width: 500px;
+      margin: 50px auto;
+      font-size: 1.1em;
+      color: #333;
+      text-align: justify;
+    }
+
+    #drop-area {
+      border: 2px dashed #ccc;
+      border-radius: 20px;
+      width: 480px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+
+    #drop-area.highlight {
+      border-color: purple;
+    }
+
+    p {
+      margin-top: 0;
+    }
+
+    .my-form {
+      margin-bottom: 10px;
+    }
+
+    #gallery {
+      margin-top: 10px;
+    }
+
+    #gallery img {
+      width: 150px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px;
+      background: #ccc;
+      cursor: pointer;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .button:hover {
+      background: #ddd;
+    }
+
+    #fileElem {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <body onload="miFunction()"> -->
+
+  <navBar />
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">SOFTWARE INDUSTRIAL APLICADO A LA CALIDAD Y PRODUCTIVIDAD</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <space />
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+  <div>
+    <!-- <div id="drop-area">
+      <form class="my-form">
+        <p>Upon</p>
+        <input type="file" id="readIn" multiple accept="image/*" onchange="handleFiles(this.files)">
+        <label class="button" for="readIn">files</label>
+      </form>
+      <progress id="progress-bar" max=100 value=0></progress>
+      <div id="gallery" />
+    </div> -->
+  </div>
+  </div>
+
+  <div class="container-fluid" style="margin-left: 5px;">
+    <br />
+    <pre>
+      <div id="drop-area">
+          <input onchange="handleFiles(this.files)" multiple class="btn btn-outline-primary" type="file" name="xlfile" id="readIn"/>
+          <progress id="progress-bar" max=100 value=0></progress>
+      </div>
+        <!-- <input class="btn btn-outline-primary" type="file" name="xlfile" id="readIn"/> -->
+    </pre>
+
+    <div id="gallery" />
+    <p><input type="submit" value="Guardar" id="exportBtn" disabled="true"></p>
+
+    <row>
+      <table class="table table-striped table-bordered table-hover" id="myData">
+      </table>
+      <table id="htmlOut"></table>
+    </row>
+    <div></div>
+    <br />
+  </div>
+
+  <!-- <script src="./app.js"></script> -->
+  <script src="./read.js"></script>
+
+  <script>
+    // ************************ Drag and drop ***************** //
+    let dropArea = document.getElementById("drop-area")  
+
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false)
+
+    function preventDefaults(e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+
+
+    function handleDrop(e) {
+      var dt = e.dataTransfer
+      var files = dt.files
+
+      handleFiles(files)
+    }
+
+    let uploadProgress = []
+    let progressBar = document.getElementById('progress-bar')
+
+    function initializeProgress(numFiles) {
+      progressBar.value = 0
+      uploadProgress = []
+
+      for (let i = numFiles; i > 0; i--) {
+        uploadProgress.push(0)
+      }
+    }
+
+    function updateProgress(fileNumber, percent) {
+      uploadProgress[fileNumber] = percent
+      let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
+      console.debug('update', fileNumber, percent, total)
+      progressBar.value = total
+    }
+
+    function handleFiles(files) {
+      files = [...files]
+      initializeProgress(files.length)
+      files.forEach(uploadFile)
+      files.forEach(previewFile)
+    }
+
+    function previewFile(file) {
+      let reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onloadend = function () {
+        let img = document.createElement('img')
+        img.src = reader.result
+        document.getElementById('gallery').appendChild(img)
+      }
+    }
+
+    function uploadFile(file, i) {
+      var url = 'https://api.cloudinary.com/v1_1/joezimim007/image/upload'
+      var xhr = new XMLHttpRequest()
+      var formData = new FormData()
+      xhr.open('POST', url, true)
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+
+      // Update progress (can be used to show progress indicator)
+      xhr.upload.addEventListener("progress", function (e) {
+        updateProgress(i, (e.loaded * 100.0 / e.total) || 100)
+      })
+
+      xhr.addEventListener('readystatechange', function (e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          updateProgress(i, 100) // <- Add this
+        }
+        else if (xhr.readyState == 4 && xhr.status != 200) {
+          // Error. Inform the user
+        }
+      })
+
+      formData.append('upload_preset', 'ujpu6gyk')
+      formData.append('file', file)
+      xhr.send(formData)
+    }
+  </script>
+
+  <!-- <footer>© BRECOMPERU 2020</footer> -->
+</body>
+
+</html>
