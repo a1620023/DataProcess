@@ -353,9 +353,9 @@ binary@~0.3.0:
     chainsaw "~0.1.0"
 
 bl@^4.0.1:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-4.0.2.tgz#52b71e9088515d0606d9dd9cc7aa48dc1f98e73a"
-  integrity sha512-j4OH8f6Qg2bGuWfRiltT2HYGx0e1QcBTrK9KAHNMwMZdQnDZFk0ZSYIpADjYCB3U12nicC5tVJwSIhwOWjb4RQ==
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-4.0.3.tgz#12d6287adc29080e22a705e5764b2a9522cdc489"
+  integrity sha512-fs4G6/Hu4/EE+F75J8DuN/0IpQqNjAdC7aEQv7Qt8MHGUH7Ckv2MwTEEeN9QehD0pfIDkMI1bkHYkKy7xHyKIg==
   dependencies:
     buffer "^5.5.0"
     inherits "^2.0.4"
@@ -940,10 +940,10 @@ electron-reload@^1.5.0:
   dependencies:
     chokidar "^3.0.2"
 
-electron@^9.1.1:
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-9.1.2.tgz#bfa26d6b192ea13abb6f1461371fd731a8358988"
-  integrity sha512-xEYadr3XqIqJ4ktBPo0lhzPdovv4jLCpiUUGc2M1frUhFhwqXokwhPaTUcE+zfu5+uf/ONDnQApwjzznBsRrgQ==
+electron@^9.1.2:
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-9.2.1.tgz#54ef574e1af4ae967b5efa94312f1b6458d44a02"
+  integrity sha512-ZsetaQjXB8+9/EFW1FnfK4ukpkwXCxMEaiKiUZhZ0ZLFlLnFCpe0Bg4vdDf7e4boWGcnlgN1jAJpBw7w0eXuqA==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
